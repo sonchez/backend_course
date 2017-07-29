@@ -1,0 +1,41 @@
+english:
+  language: Please choose a language
+  welcome: "Welcome to Calculator! Enter your name:"
+  name: "Make sure to use a valid name."
+  hi: "Hi"
+  first_number: "What's the first number?"
+  error: "Hmm. that doesn't look like a valid number"
+  second_number: "What's the second number?"
+  options: |
+   What operation would you like to perform?
+     1) add
+     2) subract
+     3) multiply
+     4) divide
+  choose: "Must choose 1,2,3 or 4"
+  calculating: "the two numbers..."
+  results: "The result is "
+  anotha_one: "Do you want to perform another calculation? (Y to   calculate again)"
+  end: "Thank you for using the calculator. Goodbye!"
+espanol:
+  language: "Elija un idioma."
+  welcome: "Bienvenido a la calculadora! Introduzca su nombre:"
+  name: "Asegurese de ulitizar un nombre valido."
+  hi: "Hola"
+  first_number: "Cual es el primer numero?"
+  error: "Eso no parece un numero valido."
+  second_number: "Cual es el segundo numero?"
+  options: |
+   Que accion desea realizar?
+     1) adicion
+     2) sustraccion
+     3) multiplicacion
+     4) division
+  choose: "Debe elegir 1, 2, 3 o 4"
+  calculating: "Los dos numeros..."
+  results: "El resultado es "
+  anotha_one: "Desea realizar otro calculo? Pulse 'y' para calcular de nuevo)"
+  end: "Gracias por usar la calculadora. Adios"
+
+
+
