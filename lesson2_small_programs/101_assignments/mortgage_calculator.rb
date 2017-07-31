@@ -111,7 +111,7 @@ loop do
       prompt choice['valid']
     end
   end
-# ---------------------------------------------------------
+  # ---------------------------------------------------------
   # Second loan question loop
   apr = ''
   mpr = ''
@@ -129,7 +129,7 @@ loop do
       prompt choice['valid']
     end
   end
-# ---------------------------------------------------------
+  # ---------------------------------------------------------
   # Third loan question loop
   monthly_duration = ''
   loop do
