@@ -2,28 +2,27 @@ require 'yaml'
 MESSAGES = YAML.load_file('loans.yml')
 
 def prompt(string)
-  puts("=> #{string}")
-  puts "_____________________________________________".center(20)
   puts
+  puts("=> #{string}")
+  puts "________________________________________________"
 end
 
-def percent_checker (num)
+def percent_checker(num)
   if num.include?('%')
-    num = num.delete!("%")
+    num.delete!("%")
   end
 end
 
-def money_checker (num)
+def money_checker(num)
   if num.include?('$')
-    num = num.delete!('$')
+    num.delete!('$')
   end
 end
 
-def percent_money_wrapper (num)
-  money_checker (num)
-  percent_checker (num)
+def percent_money_wrapper(num)
+  money_checker num
+  percent_checker num
 end
-
 
 def valid_number?(num)
   num.to_i.to_s == num
@@ -56,7 +55,7 @@ end
 
 def debt(p, j, n)
   payment = p.to_f * (j / (1 - (1 + j)**(-n.to_i * 12)))
-  #limits decimals
+  # limits decimals
   format("%.2f", payment)
 end
 # End of Methods
@@ -65,9 +64,9 @@ end
 choice = ''
 language = ''
 loop do
-  prompt ("Please choose a language!
+  prompt "Please choose a language!
    Aqui puedes seleccionar el idioma preferido.
-   Enter 1 for English or enter 2 for Espanol")
+   Enter 1 for English or enter 2 for Espanol"
   language = gets.chomp
   # short circuit to manage proper input.
   if language_checker?(language)
@@ -116,8 +115,8 @@ loop do
     percent_money_wrapper(apr)
     if apr.empty?
       prompt choice['valid']
-    elsif
-      number?(apr)  # input validation
+    # input validation
+    elsif number?(apr)
       mpr = ((apr.to_f / 100) / 12)
       break
     else
