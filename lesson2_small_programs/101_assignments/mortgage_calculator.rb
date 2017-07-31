@@ -4,7 +4,7 @@ MESSAGES = YAML.load_file('loans.yml')
 def prompt(string)
   puts
   puts("=> #{string}")
-  puts "________________________________________________"
+  puts "_______________________________________________________________"
 end
 
 def percent_checker(num)
@@ -24,12 +24,14 @@ def percent_money_wrapper(num)
   percent_checker num
 end
 
-def valid_number?(num)
-  num.to_i.to_s == num
+def float_checker?(num)
+  if Float(num.to_f) == true
+    format("%.2f", num)
+  end
 end
 
-def number?(number)
-  valid_number?(number) || format("%.2f", number)
+def valid_number?(num)
+  num.to_i.to_s == num || num.to_f >= 0
 end
 
 def language_selector(language)
@@ -55,11 +57,11 @@ end
 
 def debt(p, j, n)
   payment = p.to_f * (j / (1 - (1 + j)**(-n.to_i * 12)))
-  # limits decimals
+  # limits to two decimal points
   format("%.2f", payment)
 end
 # End of Methods
-
+system 'clear'
 # Beginning of user input (Before main Loop initiates.)
 choice = ''
 language = ''
@@ -77,6 +79,7 @@ loop do
   end
 end
 
+# Name loop
 prompt choice['welcome']
 name = ''
 loop do
@@ -92,6 +95,7 @@ end
 prompt choice['hello'] + " #{name}"
 # Main Loop starts here!
 loop do
+  #First loan question loop
   loan_amount = ''
   loop do
     prompt choice['total_loan']
@@ -100,13 +104,14 @@ loop do
     # prevents number? method crashing with empty input.
     if loan_amount.empty?
       prompt choice['valid']
-    elsif number?(loan_amount)
+    elsif valid_number?(loan_amount)
       break
     else
       prompt choice['valid']
     end
   end
 
+  # Second loan question loop
   apr = ''
   mpr = ''
   loop do
@@ -116,7 +121,7 @@ loop do
     if apr.empty?
       prompt choice['valid']
     # input validation
-    elsif number?(apr)
+    elsif valid_number?(apr)
       mpr = ((apr.to_f / 100) / 12)
       break
     else
@@ -124,6 +129,7 @@ loop do
     end
   end
 
+  # Third loan question loop
   monthly_duration = ''
   loop do
     prompt choice['month_duration']
@@ -131,7 +137,7 @@ loop do
     # input validation
     if monthly_duration.empty?
       prompt choice['valid']
-    elsif number?(monthly_duration)
+    elsif valid_number?(monthly_duration)
       break
     else
       prompt choice['valid']
@@ -153,6 +159,9 @@ $#{debt(loan_amount, mpr, monthly_duration)}"
   prompt choice['continue']
   # downcase for input validation
   endprogram = gets.downcase.chomp
+  if endprogram = "y"
+    system 'clear'
+  end
   break unless endprogram == 'y'
 end
 prompt choice['goodbye']
