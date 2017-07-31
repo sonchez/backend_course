@@ -95,7 +95,7 @@ end
 prompt choice['hello'] + " #{name}"
 # Main Loop starts here!
 loop do
-  #First loan question loop
+  # First loan question loop
   loan_amount = ''
   loop do
     prompt choice['total_loan']
@@ -159,7 +159,7 @@ $#{debt(loan_amount, mpr, monthly_duration)}"
   prompt choice['continue']
   # downcase for input validation
   endprogram = gets.downcase.chomp
-  if endprogram = "y"
+  if endprogram == "y"
     system 'clear'
   end
   break unless endprogram == 'y'
