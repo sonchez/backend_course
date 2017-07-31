@@ -1,15 +1,83 @@
-english:
-  welcome: "Hi! Welcome to your personalized Mortgage Calculator!"
-  input: "Please input your first name!"
-  namefix: "Please input your name."
-  hello: "Hello, "
-  total_loan: "Please provide the total loan amount"
-  valid: "Thats not valid. Try again."
-  apr_amount: "Please input your Annual Percentage Rate (APR)"
-  month_duration: "Please input the duration of the loan in years!"
-  calculating: "calculating...."
-  consulting: "consulting your lender..."
-  collecting: "Repossessing your car..."
-  month_payment: "Your monthly loan payments will be:"
-  continue: "Would you like to calculate another loan? (Y for yes)"
-  goodbye: "Thanks for using the mortgage calculator! Bye!"
+english: 
+  welcome: |
+    Hi! Welcome to your personalized Mortgage Calculator!
+       Please input your first name!
+   
+
+  namefix: |
+   "Please input your name."
+
+  hello: 
+   "Hello,"
+
+  total_loan: |
+   Please provide the total loan amount
+
+  valid: |
+   Thats not valid. Try again.
+
+  apr_amount: | 
+   Please input your Annual Percentage Rate (APR)
+
+  month_duration: |
+   Please input the duration of the loan in years!
+
+  calculating: |
+   Calculating....
+
+  consulting: |
+   Consulting your lender...
+
+  collecting: |
+   Repossessing your car...
+
+  month_payment:
+   "Your monthly loan payments will be:"
+
+  continue: |
+   Would you like to calculate another loan? (Y for yes)
+
+  goodbye: |
+   Thanks for using the mortgage calculator! Bye!
+
+espanol:
+  welcome: | 
+    Hola! Bienvenido a la calculadora de hipotecas personalizada!
+       Por favor introduzca su nombre!
+
+  namefix: |
+   "Por favor introduzca su nombre"
+
+  hello:
+   "Hola,"
+
+  total_loan: |
+   Lamentablemente opciones de la cantidad total del préstamo
+
+  valid: |
+   Eso no es válido. Inténtelo de nuevo.
+
+  apr_amount: |
+   Por favor, introduzca su tasa de porcentaje anual (APR)
+
+  month_duration: |
+   Por favor, introduzca la duración del préstamo en años!
+
+  calculating: |
+   Cálculo ....
+
+  consulting: |
+   Consultar a su prestamista...
+
+  collecting: |
+   Recuperar la posesión de su coche...
+
+  month_payment:
+   "Sus pagos mensuales del préstamo serán:"
+
+  continue: |
+   ¿Quieres calcular Críticas otro préstamo? (Y para sí)
+
+  goodbye: |
+   Gracias por usar la calculadora de hipotecas! Adiós!
+
