@@ -61,6 +61,7 @@ def debt(p, j, n)
   format("%.2f", payment)
 end
 # End of Methods
+# ---------------------------------------------------------
 system 'clear'
 # Beginning of user input (Before main Loop initiates.)
 choice = ''
@@ -78,7 +79,7 @@ loop do
     # no conditional statement. Simply asks the above prompts again.
   end
 end
-
+# ---------------------------------------------------------
 # Name loop
 prompt choice['welcome']
 name = ''
@@ -91,7 +92,7 @@ loop do
     break
   end
 end
-
+# ---------------------------------------------------------
 prompt choice['hello'] + " #{name}"
 # Main Loop starts here!
 loop do
@@ -110,7 +111,7 @@ loop do
       prompt choice['valid']
     end
   end
-
+# ---------------------------------------------------------
   # Second loan question loop
   apr = ''
   mpr = ''
@@ -128,7 +129,7 @@ loop do
       prompt choice['valid']
     end
   end
-
+# ---------------------------------------------------------
   # Third loan question loop
   monthly_duration = ''
   loop do
@@ -143,6 +144,7 @@ loop do
       prompt choice['valid']
     end
   end
+  # ---------------------------------------------------------
   # actual loan calculation
   debt(loan_amount, mpr, monthly_duration)
 
@@ -165,3 +167,4 @@ $#{debt(loan_amount, mpr, monthly_duration)}"
   break unless endprogram == 'y'
 end
 prompt choice['goodbye']
+# ---------------------------------------------------------
