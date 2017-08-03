@@ -24,12 +24,6 @@ def percent_money_wrapper(num)
   percent_checker num
 end
 
-def float_checker?(num)
-  if Float(num.to_f) == true
-    format("%.2f", num)
-  end
-end
-
 def valid_number?(num)
   num.to_i.to_s == num || num.to_f >= 0
 end
@@ -38,8 +32,8 @@ def language_selector(language)
   MESSAGES[language]
 end
 
-def language_checker?(language_choice)
-  language_choice == '1' || language_choice == '2'
+def language_checker?(language_language_translation)
+  language_language_translation == '1' || language_language_translation == '2'
 end
 
 def language_decider(decision)
@@ -63,8 +57,9 @@ end
 # End of Methods
 # ---------------------------------------------------------
 system 'clear'
+system 'cls'
 # Beginning of user input (Before main Loop initiates.)
-choice = ''
+language_translation = ''
 language = ''
 loop do
   prompt "Please choose a language!
@@ -73,42 +68,36 @@ loop do
   language = gets.chomp
   # short circuit to manage proper input.
   if language_checker?(language)
-    # wrapper to help cut down on method clutter.
-    choice = language_wrapper(language)
+    language_translation = language_wrapper(language)
     break
-    # no conditional statement. Simply asks the above prompts again.
   end
 end
 # ---------------------------------------------------------
 # Name loop
-prompt choice['welcome']
+prompt language_translation['welcome']
 name = ''
 loop do
   name = gets.chomp
-  # prevent no entry input
-  if name.empty?
-    prompt choice['namefix']
-  else
-    break
-  end
+  break unless name.empty?
+  prompt language_translation['namefix']
 end
 # ---------------------------------------------------------
-prompt choice['hello'] + " #{name}"
+prompt language_translation['hello'] + " #{name}"
 # Main Loop starts here!
 loop do
   # First loan question loop
   loan_amount = ''
   loop do
-    prompt choice['total_loan']
+    prompt language_translation['total_loan']
     loan_amount = gets.chomp
     percent_money_wrapper(loan_amount)
     # prevents number? method crashing with empty input.
     if loan_amount.empty?
-      prompt choice['valid']
+      prompt language_translation['valid']
     elsif valid_number?(loan_amount)
       break
     else
-      prompt choice['valid']
+      prompt language_translation['valid']
     end
   end
   # ---------------------------------------------------------
@@ -116,55 +105,56 @@ loop do
   apr = ''
   mpr = ''
   loop do
-    prompt choice['apr_amount']
+    prompt language_translation['apr_amount']
     apr = gets.chomp
     percent_money_wrapper(apr)
     if apr.empty?
-      prompt choice['valid']
+      prompt language_translation['valid']
     # input validation
     elsif valid_number?(apr)
       mpr = ((apr.to_f / 100) / 12)
       break
     else
-      prompt choice['valid']
+      prompt language_translation['valid']
     end
   end
   # ---------------------------------------------------------
   # Third loan question loop
   monthly_duration = ''
   loop do
-    prompt choice['month_duration']
+    prompt language_translation['month_duration']
     monthly_duration = gets.chomp
     # input validation
     if monthly_duration.empty?
-      prompt choice['valid']
+      prompt language_translation['valid']
     elsif valid_number?(monthly_duration)
       break
     else
-      prompt choice['valid']
+      prompt language_translation['valid']
     end
   end
   # ---------------------------------------------------------
   # actual loan calculation
   debt(loan_amount, mpr, monthly_duration)
 
-  prompt choice['calculating']
+  prompt language_translation['calculating']
   sleep(1)
-  prompt choice['consulting']
+  prompt language_translation['consulting']
   sleep(1)
-  prompt choice['collecting']
+  prompt language_translation['collecting']
   sleep(1)
   puts
 
-  prompt choice['month_payment'] + " \
+  prompt language_translation['month_payment'] + " \
 $#{debt(loan_amount, mpr, monthly_duration)}"
-  prompt choice['continue']
+  prompt language_translation['continue']
   # downcase for input validation
   endprogram = gets.downcase.chomp
   if endprogram == "y"
     system 'clear'
+    system 'cls'
   end
   break unless endprogram == 'y'
 end
-prompt choice['goodbye']
+prompt language_translation['goodbye']
 # ---------------------------------------------------------
