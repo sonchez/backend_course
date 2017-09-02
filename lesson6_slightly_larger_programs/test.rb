@@ -1,15 +1,25 @@
-def game_functions(brd, displayer,player,won,full,scan,choice)
-    displayer(brd,count_player,count_comp)
+loop do
+  display_board(board)
+  place_piece!(board,current_player)
+  current_player = alternate_player(current_player)
+  break if someone_won?(board) || board_full?(board)
+end
 
-    player
-    break if won || full
-
-    if scan != nil
-      next
+def place_piece!(brd,player)
+  if player == WHO_GOES_FIRST[0]
+    player_places_piece!(board)
+  elsif player == WHO_GOES_FIRST[1]
+    if pick_five_first(board) == nil
+      ai_choice(board)
+    else
+      pick_five_first(board)
     end
+end
 
-    choice(brd)
-    break if won || full
+def alternate_player(player)
+  if player == WHO_GOES_FIRST[0]
+    player = WHO_GOES_FIRST[1]
+  elsif player == WHO_GOES_FIRST[1]
+    player = WHO_GOES_FIRST[0]
   end
-
-    game_functions(board,display_board(board,player_counter,computer_counter),player_places_pieces!(board),someone_won?(board),board_full?(board),ai_choice(board))
+end

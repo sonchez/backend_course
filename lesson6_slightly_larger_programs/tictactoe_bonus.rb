@@ -3,7 +3,7 @@ require 'pry'
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
                 [[1, 5, 9], [3, 5, 7]]
-
+WHO_GOES_FIRST = ['player','computer','choose']
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
@@ -79,6 +79,19 @@ def board_full?(brd)
   empty_squares(brd).empty?
 end
 
+def pick_five_first(brd)
+  WINNING_LINES.each do |line|
+    if line.include?(5) == true
+      if brd[line[1]] == ' '
+        return brd[line[1]] = COMPUTER_MARKER
+      end
+    end
+  end
+  nil
+end
+
+
+
 def ai_choice(brd)
   WINNING_LINES.each do |line|
     next if brd.values_at(*line).count(' ') == 0
@@ -110,24 +123,55 @@ def detect_winner(brd)
   nil
 end
 
+def place_piece!(brd,player)
+  if player == WHO_GOES_FIRST[0]
+    player_places_piece!(brd)
+  elsif player == WHO_GOES_FIRST[1]
+    if pick_five_first(brd) == nil
+      ai_choice(brd)
+    else
+      pick_five_first(brd)
+    end
+  end
+end
+
+def alternate_player(player)
+  if player == WHO_GOES_FIRST[0]
+    player = WHO_GOES_FIRST[1]
+  elsif player == WHO_GOES_FIRST[1]
+    player = WHO_GOES_FIRST[0]
+  end
+end
+
+current_player = WHO_GOES_FIRST[2]
+
+
+while current_player == WHO_GOES_FIRST[2]
+  prompt "Please choose if the player or computer will move first! ('player' or 'comp')."
+  answer = gets.chomp.downcase
+  if answer == 'player'
+    current_player = WHO_GOES_FIRST[0]
+  elsif answer == 'comp'
+    current_player = WHO_GOES_FIRST[1]
+  else
+    prompt "Invalid answer. Please choose 'player' or 'computer'."
+  end
+end
+
 loop do
   board = intitialize_board
 
-  loop do
-
-    display_board(board,player_counter,computer_counter)
-
-    player_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
-
-    ai_choice(board)
-    break if someone_won?(board) || board_full?(board)
-  end
+    loop do
+      display_board(board,player_counter,computer_counter)
+      place_piece!(board,current_player)
+      current_player = alternate_player(current_player)
+      break if someone_won?(board) || board_full?(board)
+    end
 
     display_board(board,player_counter,computer_counter)
 
   if someone_won?(board)
-    prompt "#{detect_winner(board)} won!"
+    prompt "#{detect_winner(board)} won the round!"
   else
     prompt "It's a tie!"
   end
@@ -140,10 +184,10 @@ loop do
 
   if computer_counter == 5
     puts
-    puts "Computer wins!!"
+    prompt "Computer wins the match!!"
   elsif player_counter == 5
     puts
-    puts "Player wins!!"
+    prompt "Player wins the match!!"
   end
 
 
