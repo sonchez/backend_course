@@ -15,7 +15,7 @@ DEALER_DISTRACTIONS = ['picking his nose','thinking about dinner', 'mumbling to 
 
 def prompt(msg)
   puts "----------------------------------------"
-  prompt = puts " #{msg}"
+  prompt = puts '#' " #{msg}"
 end
 
 def deal_cards(suites,values,special,player,used)
@@ -42,15 +42,23 @@ def sneak_a_peak(answer,dealer)
   case answer
   when 'yes'
     prompt "You sneak a glance at the dealers cards." +
-    "He has a #{dealer[-1][0]} of #{dealer[-1][1]} "
+    " He has a #{dealer[-1][0]} of #{dealer[-1][1]} "
     puts "Hmmm....."
   else
     prompt "wow...lame. moving on...."
   end
 end
 
+def current_hand(player)
+  player.each do |array|
+    puts"#{array[0]} of #{array[-1]}"
+  end
+end
+
+
 def look_at_hand(player)
   sum = []
+  ace_count = []
    player.each do |array|
     if array[0].is_a?(Integer)
       sum.push(array[0])
@@ -61,11 +69,39 @@ def look_at_hand(player)
     elsif array[0] == :king
       sum.push(10)
     elsif array[0] == :ace
+      ace_count.push(1)
       sum.push(10)
     else sum = sum
     end
   end
-  sum.inject(:+)
+  if ace_count.length > 0
+    ace_count = ace_count.inject(:+)
+    sum = sum.inject(:+)
+    if sum > 21 && ace_count >= 1
+      sum = sum - (ace_count*9)
+    else
+      sum
+    end
+  else
+    sum = sum.inject(:+)
+  end
+end
+
+
+def dealer_hit_or_stay(hand)
+  if hand >= 17
+    false
+  else true
+  end
+end
+
+def bust(player,dealer)
+  if player > 21
+    true
+  elsif dealer > 21
+    true
+  else false
+  end
 end
 
 def hit_or_stay
@@ -82,7 +118,22 @@ def hit_or_stay
   end
 end
 
-active_gambler = ACTIVE_PLAYER[1]
+def compare_sums(player,dealer)
+  if player > 21
+    "PLAYER BUST. YOU LOSE!!"
+  elsif dealer > 21
+    "DEALER BUT. YOU WIN!!"
+  elsif player == 21 && dealer == 21
+    "IT'S A TIE, THE HOUSE WINS BY DEFAULT!!!!!!"
+  elsif player == 21 || player > dealer
+    "YOU WON!!!"
+  else
+      "THE HOUSE WINS!!!" +
+      "YOU LOSE!"
+    end
+end
+
+active_gambler = ACTIVE_PLAYER[0]
 
 prompt <<-MSG
       Welcome to the casino!
@@ -103,29 +154,37 @@ prompt <<-MSG
         Have fun!
 
 MSG
-sleep(5)
+sleep(1)
 system 'clear'
 system 'cls'
 
 
 loop do
+  system 'clear'
+  system 'cls'
 
   while dealer_hand.length == 0
-    prompt "The dealer shuffles the deck and deals himself two cards"
-    deal_cards(card_suites,card_values,special_cards,active_gambler,used_cards)
-    deal_cards(card_suites,card_values,special_cards,active_gambler,used_cards)
-    sleep(2)
-    active_gambler = current_player(active_gambler)
 
     prompt "The dealer deals you two cards"
     deal_cards(card_suites,card_values,special_cards,active_gambler,used_cards)
+    look_at_hand(player_hand)
     deal_cards(card_suites,card_values,special_cards,active_gambler,used_cards)
+    look_at_hand(player_hand)
     sleep(2)
 
-    prompt "Your current hand cards are #{player_hand}"
+    prompt "Your current hand cards are:"
+    current_hand(player_hand)
     prompt "The current total of your hand is #{look_at_hand(player_hand)}"
     active_gambler = current_player(active_gambler)
     sleep(2)
+
+    prompt "The dealer shuffles the deck and deals himself two cards"
+    deal_cards(card_suites,card_values,special_cards,active_gambler,used_cards)
+    look_at_hand(dealer_hand)
+    deal_cards(card_suites,card_values,special_cards,active_gambler,used_cards)
+    look_at_hand(dealer_hand)
+    sleep(2)
+    active_gambler = current_player(active_gambler)
 
     prompt "The dealer is busy #{DEALER_DISTRACTIONS[rand(0..4)]}"
     prompt "Do you want to take this chance to look at his cards? ('yes' to look)"
@@ -133,29 +192,38 @@ loop do
     sneak_a_peak(answer,dealer_hand)
   end
 
-  break if hit_or_stay == false
-
-  prompt "The dealer deals himself his cards"
-  deal_cards(card_suites,card_values,special_cards,active_gambler,used_cards)
-  active_gambler = current_player(active_gambler)
-  sleep(1)
-
+  break if hit_or_stay == false || dealer_hit_or_stay(look_at_hand(dealer_hand)) == false
+  break if bust(look_at_hand(player_hand), look_at_hand(dealer_hand))
 
   prompt "The dealer deals you your card"
   deal_cards(card_suites,card_values,special_cards,active_gambler,used_cards)
+  look_at_hand(player_hand)
   sleep(1)
 
-
-  prompt "Your current hand cards are #{player_hand}"
+  prompt "Your current hand cards are:"
+  current_hand(player_hand)
   prompt "The current total of your hand is #{look_at_hand(player_hand)}"
   active_gambler = current_player(active_gambler)
   sleep(2)
+
+  prompt "The dealer deals himself his cards"
+  deal_cards(card_suites,card_values,special_cards,active_gambler,used_cards)
+  look_at_hand(dealer_hand)
+  binding.pry
+  active_gambler = current_player(active_gambler)
+  sleep(1)
 
   prompt "The dealer is busy #{DEALER_DISTRACTIONS[rand(0..4)]}"
   prompt "Do you want to take this chance to look at his cards? ('yes' to look)"
   answer = gets.chomp.downcase
   sneak_a_peak(answer,dealer_hand)
-  break if hit_or_stay == false
 end
 
-puts "Ya broke out of the loop ya goof!"
+system 'clear'
+system 'cls'
+
+sleep(1)
+p dealer_hand
+p player_hand
+puts compare_sums(look_at_hand(player_hand),look_at_hand(dealer_hand))
+
